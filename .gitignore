@@ -1,0 +1,8 @@
+
+*.obj
+*.sbr
+*.exe
+*.map
+*.pch
+*.idb
+*.plg
