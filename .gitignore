@@ -6,3 +6,5 @@
 *.pch
 *.idb
 *.plg
+*.opt
+*.ncb
