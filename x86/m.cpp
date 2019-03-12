@@ -5,7 +5,8 @@
 
 int main() {
 	MessageBox(0, 0, 0, 0);
-	DBVM d(0x765a3212, 0xfed2ba92);
+	DBVM d;
+	//DBVM d(0x765a3212, 0xfed2ba92);
 
 	d.EPT_Reset();
 

@@ -176,40 +176,23 @@ public:
 	DWORD64 dovmcall(PVOID vmcallinfo, DWORD level1pass) const {
 		DWORD64 ret_val = 0;
 		DWORD64 callgate = 0;
+		PVOID callto = bIntel ? dovmcall_intel : dovmcall_amd;
 
-		if(bIntel) {
-			__asm {
-				pushad
-				lea eax,[dovmcall_intel]
-				mov dword ptr [callgate],eax
-				mov eax,33h
-				mov dword ptr [callgate+4],eax
-				sub esp,8
-				mov ecx,[vmcallinfo]
-				mov edx,[level1pass]
-				call fword ptr [callgate]
-				pop dword ptr [ret_val]
-				pop dword ptr [ret_val+4]
-				popad
-			}
+		__asm {
+			pushad
+			mov eax,[callto]
+			mov dword ptr [callgate],eax
+			mov eax,33h
+			mov dword ptr [callgate+4],eax
+			sub esp,8
+			mov ecx,[vmcallinfo]
+			mov edx,[level1pass]
+			call fword ptr [callgate]
+			pop dword ptr [ret_val]
+			pop dword ptr [ret_val+4]
+			popad
 		}
-		if(bAMD) {
-			__asm {
-				pushad
-				lea eax,[dovmcall_amd]
-				mov dword ptr [callgate],eax
-				mov eax,33h
-				mov dword ptr [callgate+4],eax
-				sub esp,8
-				mov ecx,[vmcallinfo]
-				mov edx,[level1pass]
-				call fword ptr [callgate]
-				pop dword ptr [ret_val]
-				pop dword ptr [ret_val+4]
-				popad
-			}
-		}
-
+	
 		return ret_val;
 	}
 
